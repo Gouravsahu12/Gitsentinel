@@ -1,0 +1,72 @@
+from __future__ import annotations
+import re
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+import httpx
+from storage.models import (
+    Alert, ContributorBaseline, DetectionResult,
+    NormalizedEvent, RepoScanResult, Severity,
+)
+
+BINARY_EXTS = {".exe", ".o", ".so", ".dll", ".bin", ".wasm", ".pyc", ".a", ".lib", ".out"}
+CI_PATTERNS = [".github/workflows/", ".gitlab-ci.yml", "Jenkinsfile", ".circleci/", "Makefile"]
+GITHUB_API = "https://api.github.com"
+
+
+def parse_repo_url(url: str) -> tuple[str, str]:
+    """Extract owner and repo name from any GitHub URL format."""
+    url = url.strip().rstrip("/")
+    patterns = [
+        r"github\.com[/:]([^/]+)/([^/\s\.]+)",
+        r"^([^/]+)/([^/]+)$",
+    ]
+    for pat in patterns:
+        m = re.search(pat, url)
+        if m:
+            owner, repo = m.group(1), m.group(2)
+            repo = repo.replace(".git", "")
+            return owner, repo
+    raise ValueError(f"Cannot parse GitHub URL: {url}")
+
+
+class GitHubRepoScanner:
+    """
+    Scans any public GitHub repo using the GitHub public API.
+    No API key needed for public repos (60 req/hour unauthenticated).
+    """
+
+    def __init__(self, github_token: str | None = None):
+        headers = {"Accept": "application/vnd.github.v3+json", "User-Agent": "GitSentinel/1.0"}
+        if github_token:
+            headers["Authorization"] = f"token {github_token}"
+        self.client = httpx.AsyncClient(headers=headers, timeout=15.0)
+
+    async def scan(self, repo_url: str) -> RepoScanResult:
+        owner, repo = parse_repo_url(repo_url)
+        repo_id = f"{owner}/{repo}"
+
+        repo_info = await self._get_repo_info(owner, repo)
+        commits = await self._get_recent_commits(owner, repo, limit=30)
+        contributors = await self._get_contributors(owner, repo)
+
+        alerts: list[Alert] = []
+        contributor_commit_counts: dict[str, int] = {}
+        for c in contributors:
+            contributor_commit_counts[c.get("login", "unknown")] = c.get("contributions", 0)
+
+        all_findings: list[DetectionResult] = []
+
+        # --- Check 1: New contributors with sudden high activity ---
+        for contributor in contributors:
+            login = contributor.get("login", "unknown")
+            count = contributor.get("contributions", 0)
+            if count <= 3 and len(contributors) > 5:
+                finding = DetectionResult(
+                    severity=Severity.MEDIUM,
+                    detector_name="NewContributorDetector",
+                    reason=f"'{login}' has only {count} commit(s) but is listed as a contributor.",
+                    recommendation="Review their commits manually to ensure they are legitimate.",
+                    confidence=0.7,
+                )
+                all_findings.append(finding)
