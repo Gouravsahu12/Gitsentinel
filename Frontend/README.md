@@ -1,33 +1,6 @@
-# ⚡ GitSentinel
+# 🚀 GITSENTINEL – Frontend
 
-**Understand your code at a glance.**
-GitSentinel turns repository activity into simple, visual insights so you can quickly spot what matters.
-
----
-
-## 🔍 What You See
-
-* 📊 Clean dashboard with key project stats
-* ⚠️ Highlights of unusual or important commits
-* 👥 Contributor activity overview
-* 🎯 Simple risk score for quick understanding
-
----
-
-## 🎨 Experience
-
-* Smooth, modern interface
-* Interactive visuals and charts
-* Fast and responsive design
-* Built for clarity — no clutter, no confusion
-
----
-
-## 🛠️ Built With
-
-* Next.js
-* TypeScript
-* Tailwind CSS
+A sleek and modern interface designed to visualize repository risk insights in a clear and interactive way. This frontend focuses on simplicity, speed, and a futuristic user experience while presenting complex data in an easy-to-understand format.
 
 ---
 
@@ -37,13 +10,35 @@ Instead of going through complex commit histories, GitSentinel presents everythi
 
 ---
 
-## ✨ Designed For
+## ✨ Features
 
-* Developers
-* Hackathon demos
-* Quick project insights
+* ⚡ Clean and responsive UI
+* 📊 Interactive dashboards and visual analytics
+* 🎯 Simple input flow for scanning repositories
+* 🌌 Futuristic design with smooth animations
+* 📱 Fully optimized for all screen sizes
 
 ---
 
-## 👨‍💻 Frontend by
-Gourav Sahu
+## 🛠️ Tech Stack
+
+* Next.js
+* React
+* Tailwind CSS
+* TypeScript
+
+---
+
+## 🎨 Design Focus
+
+This project is built with a strong emphasis on:
+
+* Minimal clutter
+* Smooth user flow
+* Clear data presentation
+* Modern futuristic aesthetics
+
+---
+
+👨‍💻 Frontend by 
+✦ 𝙂𝙊𝙐𝙍𝘼𝙑 𝙎𝘼𝙃𝙐 ✦
