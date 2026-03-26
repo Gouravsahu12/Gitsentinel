@@ -80,7 +80,7 @@ export const runAnalyse = async (data: AnalyseRequest): Promise<AnalyseResponse>
 
 export const runSourceCodeScan = async (data: SourceCodeRequest): Promise<SourceCodeResponse> => {
     const res = await fetch(`https://foss-hackathon-production.up.railway.app/scan/source-code`, {
-        method: "POST",
+        method: "POST",    //https://foss-hackathon-production.up.railway.app/scan/source-code
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
     });
@@ -90,7 +90,7 @@ export const runSourceCodeScan = async (data: SourceCodeRequest): Promise<Source
 
 export const runFullScan = async (data: FullScanRequest): Promise<FullScanResponse> => {
     const res = await fetch(`https://foss-hackathon-production.up.railway.app/scan/full`, {
-        method: "POST",
+        method: "POST",    //https://foss-hackathon-production.up.railway.app/scan/full
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
     });
