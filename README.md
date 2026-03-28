@@ -1,4 +1,5 @@
-# Gitsentinel
+# Gitsentinel - [Click Here](https://gitsentinelai.vercel.app/)
+
 <div align="center">
 
 ```
@@ -55,6 +56,8 @@ The attacker's strategy was behavioral: spend years building trust, then strike.
 GitSentinel is a **self-hosted, open source behavioral security monitor** for GitHub, GitLab, and Gitea repositories. It answers a completely different question:
 
 > *"Is this person acting suspiciously?"*
+>
+> WEBSITE LINK - https://gitsentinelai.vercel.app/
 
 ```
 Someone pushes code  ──→  GitSentinel analyzes WHO did it,
@@ -82,14 +85,14 @@ Someone pushes code  ──→  GitSentinel analyzes WHO did it,
 │                         TWO DATA SOURCES                            │
 │                                                                     │
 │  1. WEBHOOK MODE (Production)                                       │
-│     Repo owner adds GitSentinel URL in GitHub Settings → Webhooks  │
+│     Repo owner adds GitSentinel URL in GitHub Settings → Webhooks   │
 │     GitHub pushes every event as JSON to our /webhook/github        │
 │     Real-time. Zero polling. Instant alerts.                        │
 │                                                                     │
 │  2. PUBLIC API MODE (Demo / On-demand scan)                         │
-│     GitHub's REST API is public for all public repos               │
-│     api.github.com/repos/{owner}/{repo}/commits                    │
-│     No auth needed. 60 req/hour free. 5000/hour with token.        │
+│     GitHub's REST API is public for all public repos                │
+│     api.github.com/repos/{owner}/{repo}/commits                     │
+│     No auth needed. 60 req/hour free. 5000/hour with token.         │
 └────────────────────────┬────────────────────────────────────────────┘
                          │
                          ▼
@@ -107,14 +110,14 @@ Someone pushes code  ──→  GitSentinel analyzes WHO did it,
               └──────────┬───────────┘
                          │
               ┌──────────▼───────────────────────────────┐
-              │        DetectorRegistry                   │
-              │  asyncio.gather() — all run in parallel   │
-              │                                           │
-              │  BinaryBlobDetector    weight=40          │
-              │  NewMaintainerDetector weight=35          │
-              │  CIFileDetector        weight=25          │
-              │  TyposquatDetector     weight=20          │
-              │  StatAnomalyDetector   weight=10          │
+              │        DetectorRegistry                  │
+              │  asyncio.gather() — all run in parallel  │
+              │                                          │
+              │  BinaryBlobDetector    weight=40         │
+              │  NewMaintainerDetector weight=35         │
+              │  CIFileDetector        weight=25         │
+              │  TyposquatDetector     weight=20         │
+              │  StatAnomalyDetector   weight=10         │
               └──────────┬───────────────────────────────┘
                          │
                          ▼
