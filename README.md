@@ -1,4 +1,4 @@
-# Gitsentinel
+# Gitsentinel - https://gitsentinelai.vercel.app/
 <div align="center">
 
 ```
